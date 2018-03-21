@@ -1,0 +1,35 @@
+<div class="row new-info">
+    {% for product in products %}
+        <div class="product-layout col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="product-thumb transition">
+                <div class="image">
+                    <a href="{{ product.click_url }}" target="_blank">
+                        <img width="250" height="250" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a></div>
+                <div class="caption">
+                    <h4>
+                        <em class="{{ product.user_type == 1 ? 't-icon' : 'm-icon' }}"></em>
+                        <a target="_blank" href="{{ product.click_url }}">{{ product.name }}</a>
+                    </h4>
+                    <div class="clearfix">
+                        <div class="pull-left left-part">
+                            <div class="price" style="display: {{ product.coupon_amount ? 'none' : 'block' }}">{{ text_price }}{{ product.reserve_price }}</div>
+                            {% if product.coupon_amount %}
+                                <div class="price">{{ text_real_price }}{{ product.price }}</div>
+                            {% else %}
+                                <div class="coupon-price">{{ text_real_price }}<strong>{{ product.price }}</strong></div>
+                            {% endif %}
+                            <div class="coupon-price" style="display: {{ product.coupon_amount ? 'block' : 'none' }}">{{ text_coupon_price }}<strong>{{ product.coupon_amount }}</strong></div>
+                        </div>
+                        <div class="pull-right right-part" style="display: {{ product.coupon_amount ? 'block' : 'none' }}">
+                            <div class="coupon-info"><span>{{ text_coupon }}</span>{{ product.coupon_minus }}{{ text_yuan }}</div>
+                            <div class="coupon-remain">{{ text_less }}{{ product.coupon_remain_count }}{{ text_unit }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <a class="btn-customer" target="_blank" href="{{ product.click_url }}">{{ text_go_detail }}</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

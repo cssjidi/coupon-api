@@ -1,0 +1,87 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right"><a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-attribute-group').submit() : false;"><i class="fa fa-trash-o"></i></button>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ heading_title }}</h3>
+      </div>
+      <div class="panel-body">
+        <section class="union">
+          <form action="index.php?route=catalog/union&user_token={{ token }}" method="post">
+            <div class="form-group">
+                <label for="">{{ text_limit }}</label>
+                <input type="number" name="limit" class="form-control" value="20">
+            </div>
+            <div class="form-group">
+              <label for="">{{ text_page }}</label>
+              <input type="number" name="page" class="form-control" value="1">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-default" type="submit">{{ text_button }}</button>
+              <button class="btn btn-warning" type="button" id="favoriteCategory">{{ text_favorite_category }}</button>
+              <button class="btn btn-primary" type="button" id="favoriteProduct">{{ text_favorite_product }}</button>
+              <button class="btn btn-primary" type="button" id="get_coupon_info">{{ text_favorite_product }}</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}
+<script>
+  $(function () {
+    $('#favoriteCategory').on('click',function () {
+      $(this).attr('disabled',true);
+      $(this).text('{{ text_loading }}');
+      const self = $(this);
+      $.post('index.php?route=catalog/union/favoriteCategory&user_token={{ token }}').done(function (data) {
+        if(data) {
+          alert('{{ text_success }}')
+          self.removeAttr('disabled');
+          self.text('{{ text_favorite_category }}');
+        }
+      })
+    })
+    $('#favoriteProduct').on('click',function () {
+      $(this).attr('disabled',true);
+      $(this).text('{{ text_loading }}');
+      const self = $(this);
+      $.post('index.php?route=catalog/union/favoriteProduct&user_token={{ token }}').done(function (data) {
+        if(data) {
+          alert('{{ text_success }}')
+          self.removeAttr('disabled');
+          self.text('{{ text_favorite_product }}');
+        }
+      })
+    })
+    $('#get_coupon_info').on('click',function () {
+      $.post('index.php?route=catalog/union/getCouponInfo&user_token={{ token }}').done(function (data) {
+        console.log(data)
+      })
+    })
+  })
+</script>

@@ -1,0 +1,70 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right"><a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-attribute-group').submit() : false;"><i class="fa fa-trash-o"></i></button>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+      </div>
+      <div class="panel-body">
+        <section class="taobao-list">
+          <ul class="nav nav-tabs" role="tablist">
+            {% for key,tab in tabs %}
+                <li role="presentation" class="{{ tab.name == search ? 'active' : '' }}"><a href="{{ url }}&query={{ tab.name }}" data-cate="{{ tab.category_id }}">{{ tab.name }}</a></li>
+            {% endfor %}
+          </ul>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th><input type="checkbox" class="form-control" name="all"></th>
+              <th>{{ text_image }}</th>
+              <th>{{ text_title }}</th>
+              <th>{{ text_price }}</th>
+              <th>{{ text_coupon_info }}</th>
+              <th>{{ text_coupon_price }}</th>
+              <th>{{ text_tbpwd }}</th>
+            </tr>
+            </thead>
+            {% for l in products %}
+            <tr>
+              <td><label for="" class="label-control"><input type="checkbox" class="form-control" name="product[{{ l.num_iid }}]"></label></td>
+              <td><img src="{{ l.small_images.string[0] }}" width="30" height="30" alt=""></td>
+              <td>{{ l.title }}</td>
+              <td>{{ l.zk_final_price }}</td>
+              <td>{{ l.coupon_info }}</td>
+              <td>{{ l.coupon_price }}</td>
+              <td>{{ l.tbpwd }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+          <div class="row">
+            <div class="col-sm-6 text-left">{{ pagination }}</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

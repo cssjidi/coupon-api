@@ -1,0 +1,19 @@
+{
+    "name": "cjd/taobao-topsdk",
+    "type": "library",
+    "description": "taobao-topsdk",
+    "keywords": [],
+    "homepage": "https://github.com/cssjidi/cjd-taobao-topsdk.git",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "cjd ouyang",
+            "email": "cjd2015@qq.com",
+            "homepage": "http://www.css9.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "files": ["TopSdk.php"]
+    }
+}
