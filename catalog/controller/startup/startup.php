@@ -186,7 +186,7 @@ class ControllerStartupStartup extends Controller {
 		$this->registry->set('cart', new Cart\Cart($this->registry));
 
 		// Jwt
-		$this->registry->set('jwt', new Cjd\Token($this->registry));
+		$this->registry->set('jwt', new Jwt\Jwt($this->registry));
 		
 		// Encryption
 		$this->registry->set('encryption', new Encryption($this->config->get('config_encryption')));

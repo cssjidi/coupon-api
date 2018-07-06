@@ -5,11 +5,8 @@ class ControllerStartupSeoUrl extends Controller {
 		if ($this->config->get('config_seo_url')) {
 			$this->url->addRewrite($this);
 		}
-		
-		if (isset($this->request->get['route'])) {
-			$parts = explode('/', $this->request->get['route']);
-		}
 
+		// Decode URL
 		if (isset($this->request->get['_route_'])) {
 			$parts = explode('/', $this->request->get['_route_']);
 
@@ -19,13 +16,10 @@ class ControllerStartupSeoUrl extends Controller {
 			}
 
 			foreach ($parts as $part) {
-
 				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape($part) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
 				if ($query->num_rows) {
 					$url = explode('=', $query->row['query']);
-
-					
 
 					if ($url[0] == 'product_id') {
 						$this->request->get['product_id'] = $url[1];
@@ -82,8 +76,6 @@ class ControllerStartupSeoUrl extends Controller {
 					if ($query->row['query'] && $url[0] != 'information_id' && $url[0] != 'manufacturer_id' && $url[0] != 'category_id' && $url[0] != 'product_id' && $url[0] != 'blog_category_id' && $url[0] != 'blog_id' && $url[0] != 'press_category_id' && $url[0] != 'press_id' && $url[0] != 'faq_category_id') {
 						$this->request->get['route'] = $query->row['query'];
 					}
-				} elseif ($parts[0] == 'api'){
-					$this->request->get['route'] = 'app/api';
 				} else {
 					$this->request->get['route'] = 'error/not_found';
 
@@ -116,7 +108,6 @@ class ControllerStartupSeoUrl extends Controller {
 	}
 
 	public function rewrite($link) {
-
 		$url_info = parse_url(str_replace('&amp;', '&', $link));
 
 		$url = '';

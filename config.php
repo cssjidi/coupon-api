@@ -7,10 +7,10 @@ define('HTTPS_SERVER', 'http://localhost:9090/');
 //define('HTTPS_SERVER', 'http://192.168.43.89:9090/');
 
 // DIR
-define('DIR_APPLICATION', 'D:/www/mycncart/coupon/catalog/');
-define('DIR_SYSTEM', 'D:/www/mycncart/coupon/system/');
-define('DIR_IMAGE', 'D:/www/mycncart/coupon/image/');
-define('DIR_STORAGE', 'D:/www/mycncart/couponstorge/');
+define('DIR_APPLICATION', 'E:/cjd/coupon/catalog/');
+define('DIR_SYSTEM', 'E:/cjd/coupon/system/');
+define('DIR_IMAGE', 'E:/cjd/coupon/image/');
+define('DIR_STORAGE', 'E:/cjd/couponstorge/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/theme/');
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');

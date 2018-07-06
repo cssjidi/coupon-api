@@ -10,11 +10,11 @@ define('HTTPS_SERVER', 'http://localhost:9090/admin/');
 define('HTTPS_CATALOG', 'http://localhost:9090/');
 
 // DIR
-define('DIR_APPLICATION', 'D:/www/mycncart/coupon/admin/');
-define('DIR_SYSTEM', 'D:/www/mycncart/coupon/system/');
-define('DIR_IMAGE', 'D:/www/mycncart/coupon/image/');
-define('DIR_STORAGE', 'D:/www/mycncart/couponstorge/');
-define('DIR_CATALOG', 'D:/www/mycncart/coupon/catalog/');
+define('DIR_APPLICATION', 'E:/cjd/coupon/admin/');
+define('DIR_SYSTEM', 'E:/cjd/coupon/system/');
+define('DIR_IMAGE', 'E:/cjd/coupon/image/');
+define('DIR_STORAGE', 'E:/cjd/couponstorge/');
+define('DIR_CATALOG', 'E:/cjd/coupon/catalog/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');

@@ -16,7 +16,7 @@ class ModelCatalogProduct extends Model
             $sql = "INSERT INTO " . DB_PREFIX . "product_to_taobao SET product_id = '" . (int)$product_id . "',num_iid = '" . $this->db->escape($data['product_taobao_id']) . "', reserve_price = '" . (float)$data['reserve_price'] . "', zk_final_price = '" . (float)$data['zk_final_price'] . "', item_url = '" . $this->db->escape($data['item_url']) . "',user_type ='" . (int)$data['user_type'] . "' ,provcity = '" . $this->db->escape($data['provcity']) . "', click_url = '" . $this->db->escape($data['click_url']) . "', seller_id = '" . (int)$data['seller_id'] . "', volume = '" . (int)$data['volume'] . "', nick = '" . $this->db->escape($data['nick']) . "', shop_title = '" . $this->db->escape($data['shop_title']) . "', zk_final_price_wap = '" .(float)$data['zk_final_price_wap'] . "', event_start_time = '" . $this->db->escape($data['event_start_time']) . "', event_end_time = '" . $this->db->escape($data['event_end_time']) . "', tk_rate = '" . $this->db->escape($data['tk_rate']) . "', status = '" . (int)$data['status'] . "', type = '" . (int)$data['type'] . "'";
             if (isset($data['coupon_info'])) {
                 echo '++++++++++';echo $data['product_taobao_id'];echo '+++++++++';
-                $sql .= ",coupon_info = '" . $this->db->escape($data['coupon_info']) . "',coupon_amount = '" . (int)$data['coupon_amount'] . "', coupon_click_url = '" . $this->db->escape($data['coupon_click_url']) . "', coupon_end_time = '" .  $this->db->escape($data['coupon_end_time']) . "', coupon_start_time = '" . $this->db->escape($data['coupon_start_time']) . "',coupon_remain_count ='" . (int)$data['coupon_remain_count'] . "',coupon_total_count ='" . (int)$data['coupon_total_count'] . "',coupon_minus ='" . (int)$data['coupon_minus'] . "',tbpwd ='" . (int)$data['tbpwd'] . "'";
+                $sql .= ",coupon_info = '" . $this->db->escape($data['coupon_info']) . "',coupon_amount = '" . (int)$data['coupon_amount'] . "', coupon_click_url = '" . $this->db->escape($data['coupon_click_url']) . "', coupon_end_time = '" .  $this->db->escape($data['coupon_end_time']) . "', coupon_start_time = '" . $this->db->escape($data['coupon_start_time']) . "',coupon_remain_count ='" . (int)$data['coupon_remain_count'] . "',coupon_total_count ='" . (int)$data['coupon_total_count'] . "',coupon_minus ='" . (int)$data['coupon_minus'] . "'";
             }
             $this->db->query($sql);
         }
@@ -824,7 +824,6 @@ class ModelCatalogProduct extends Model
                     $data['mpn'] = '';
                     $data['location'] = '';
                     if (isset($product['coupon_info'])){
-                        $data['tbpwd'] = $product['tbpwd'];
                         $data['coupon'] = true;
                         $data['coupon_info'] = $product['coupon_info'];
                         $data['coupon_amount'] = $product['coupon_amount'];

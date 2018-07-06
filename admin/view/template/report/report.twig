@@ -24,7 +24,7 @@
             <select name="report" onchange="location = this.value;" class="form-control">
               
               {% for report in reports %}
-              {% if code == 'report.code' %}
+              {% if code == report.code %}
               
               <option value="{{ report.href }}" selected="selected">{{ report.text }}</option>
               
