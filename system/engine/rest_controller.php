@@ -269,37 +269,53 @@ abstract class RestController extends Controller{
 			$patterns[$this->formateUrl($item)] = $pattern;
 		}
 		$num_reg = '/\/(\d+)/';
-		$num_str = preg_split($num_reg,$route);
-		preg_match_all($num_reg,$route,$match_id);
-		if(isset($match_id[1][0])){
-			$query_data['first_id'] = $match_id[1][0];
+		if (preg_match($num_reg, $route)) {
+			$num_str = preg_split($num_reg,$route);
+			preg_match_all($num_reg,$route,$match_id);
+			if(isset($match_id[1][0])){
+				$query_data['first_id'] = $match_id[1][0];
+			}
+			if(isset($match_id[1][1])){
+				$query_data['second_id'] = $match_id[1][1];
+			}
+			if(isset($num_str[0])){
+				if(!isset($num_str[1])){//first charts
+	//				echo '/products';
+					//$match_str = trim($num_str[0],'/').'/:id';
+					$match_str = trim($num_str[0],'/');
+				}
+				if(isset($num_str[1]) && count($num_str) === 2 && empty(trim($num_str[1],'/'))){//first charts id
+	//				echo 'products/:id';
+					$match_str = trim($num_str[0],'/').'/:id';
+
+				}
+				if(isset($num_str[1]) && !empty(trim($num_str[1],'/')) && !isset($num_str[2])){//second charts
+	//				echo 'photos';
+					$match_str = trim($num_str[0],'/').'/:id/'.trim($num_str[1],'/');
+				}
+
+				if(isset($num_str[2]) && !empty(trim($num_str[1],'/')) && empty(trim($num_str[2],'/')) && count($num_str) === 3){//second charts id
+	//				echo 'photos/：id';
+					$match_str = trim($num_str[0],'/').'/:id/'.trim($num_str[1],'/').'/:id';
+
+				}
+			}
+		} else {
+			$count = substr_count($route,'/');
+			//var_dump(substr_count($route,'/'));
+			if($count < 5){
+				$match_str = $route;
+			}else{
+				$chr = strripos($route,'/');
+				$query_data['first_id'] = $first_id = substr($route,$chr+1);
+				$str = strchr($route,$first_id,true);
+			    //$num_str = preg_split($num_reg,$route);
+			    //$match_str = str_ireplace('/','\/',$str).':id';
+			   	//var_dump($match_str);
+			   	$match_str = $str . ':id';
+		   }
 		}
-		if(isset($match_id[1][1])){
-			$query_data['second_id'] = $match_id[1][1];
-		}
-		if(isset($num_str[0])){
-			if(!isset($num_str[1])){//first charts
-//				echo '/products';
-				//$match_str = trim($num_str[0],'/').'/:id';
-				$match_str = trim($num_str[0],'/');
-			}
-			if(isset($num_str[1]) && count($num_str) === 2 && empty(trim($num_str[1],'/'))){//first charts id
-//				echo 'products/:id';
-				$match_str = trim($num_str[0],'/').'/:id';
-
-			}
-			if(isset($num_str[1]) && !empty(trim($num_str[1],'/')) && !isset($num_str[2])){//second charts
-//				echo 'photos';
-				$match_str = trim($num_str[0],'/').'/:id/'.trim($num_str[1],'/');
-			}
-
-			if(isset($num_str[2]) && !empty(trim($num_str[1],'/')) && empty(trim($num_str[2],'/')) && count($num_str) === 3){//second charts id
-//				echo 'photos/：id';
-				$match_str = trim($num_str[0],'/').'/:id/'.trim($num_str[1],'/').'/:id';
-
-			}
-		}
-
+		//echo $match_str;
 //		$this->showError($match_str);
 //		$this->showError($num_str);
 		if(empty($match_str)){
@@ -308,7 +324,6 @@ abstract class RestController extends Controller{
 		}
 		$format_match_str = $this->formateUrl($match_str);
 //		$this->showError($query_data);
-
 		$match_count = 0;
 		foreach ($patterns as $expr=>$pattern){
 			//var_dump($expr);
@@ -323,7 +338,6 @@ abstract class RestController extends Controller{
 					$this->sendHttpStatus(405);
 					return false;
 				}
-				//var_dump($query_data);
 				return $this->load->controller('app/'.$method[0],$query_data);
 			}
 			$match_count++;

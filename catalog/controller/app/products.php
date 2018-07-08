@@ -15,6 +15,7 @@ class ControllerAppProducts extends RestController
         $this->load->model('tool/image');
 
         $this->load->model('catalog/product');
+        var_dump($this->request);
         $filter_data = array(
             'taobao'        => true,
             'sort'  => isset($this->request->get['sort']) ? $this->request->get['sort'] : 'p.date_added',

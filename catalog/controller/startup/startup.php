@@ -182,6 +182,9 @@ class ControllerStartupStartup extends Controller {
 		// Length
 		$this->registry->set('length', new Cart\Length($this->registry));
 		
+		// TopClient
+		$this->registry->set('taobao', new Taobao\Taobao($this->registry));
+
 		// Cart
 		$this->registry->set('cart', new Cart\Cart($this->registry));
 

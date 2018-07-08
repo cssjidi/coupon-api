@@ -240,6 +240,7 @@ class ModelCatalogProduct extends Model {
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
 		$product_data = array();
+		//echo $sql;
 		$query = $this->db->query($sql);
 		foreach ($query->rows as $result) {
 			$product_data[$result['product_id']] = $this->getProduct($result['product_id'],isset($data['taobao']) ? true : false);

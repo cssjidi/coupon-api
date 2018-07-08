@@ -1,8 +1,9 @@
 <?php
 namespace Cjd;
-require_once(DIR_SYSTEM . 'library/firebase/jwt/src/JWT.php');
+require_once(DIR_SYSTEM . 'library/cjd/jwt/src/SignatureInvalidException.php');
+require_once(DIR_SYSTEM . 'library/cjd/jwt/src/JWT.php');
 use \Firebase\JWT\JWT;
-use \Firebase\JWT\SignatureInvalidException;
+
 class Token {
 	public function __construct($registry) {
 		$this->leeway = JWT::$leeway;

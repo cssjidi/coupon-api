@@ -17,11 +17,11 @@ class Taobao {
   //       $this->top->appkey = '24703000';
   //       $this->top->secretKey = 'f738952974cf8c7aa04835a8f19c5555';
         $this->top->format = 'json';
-		$this->debug = true;
+		$this->debug = false;
         $this->adzoneId = $this->config->get('module_taobao_zone');
 	}
 	public function getResult($msg){
-		if($msg->results){
+		if(isset($msg->results)){
 			return $msg->results;
 		}elseif($this->debug){
 			return $msg;
@@ -93,16 +93,40 @@ class Taobao {
 		$req = new \TbkDgItemCouponGetRequest;
         $req->setAdzoneId($this->adzoneId);
         $req->setPlatform(isset($data['platform']) ? $data['platform'] : '2');
-        $req->setPageNo(isset($data['page']) ? $data['page'] : $this->pageNo);
-        $req->setPageSize(isset($data['size']) ? $data['size'] : $this->pageSize);
-        //$req->setQ(urldecode($search));
+        $req->setPageNo(isset($data['page']) ? $data['page'] : 1);
+        $req->setPageSize(isset($data['size']) ? $data['size'] : 20);
+        $req->setQ(urldecode($search));
         $rep = $this->top->execute($req);
-        $result = $this->getResult($rep);
-		//$new_items = array();
-		//foreach ($result->tbk_coupon as $key=>$item){
-		//	$item->desc = $this->getContent($item->item_url);
-		//}
-		return $this->corverTpwd($result->tbk_coupon);
+        $search_result = $this->getResult($rep);
+        if($search_result){
+        	$results =  json_decode(json_encode($search_result->tbk_coupon
+),true);
+        	foreach ($results as $key => $value) {
+        		if(isset($value['coupon_info'])) {
+					preg_match_all('/[0-9]+/', $value['coupon_info'], $match);
+					$price = $value['zk_final_price'];
+					$results[$key]['coupon_amount'] = '￥'.(String)($price - $match[0][1]);
+					$results[$key]['coupon_minus'] = (String)($match[0][1]);
+					$results[$key]['coupon_end_time'] = $value['coupon_end_time'];
+					$results[$key]['coupon_start_time'] = $value['coupon_end_time'];
+					$results[$key]['coupon_info'] = $value['coupon_info'];
+					//$results[$key]['coupon_remain_count'] = $value['coupon_remain_count'];
+					//$results[$key]['coupon_remain_date'] = $value['coupon_remain_date'];
+					$results[$key]['coupon_total_count'] = $value['coupon_total_count'];
+					$results[$key]['description'] = $value['item_description'];
+					$results[$key]['name'] = $value['title'];
+					$results[$key]['price'] = '￥'.$value['zk_final_price'];
+					$results[$key]['reserve_price'] = isset($value['reserve_price']) ? '￥'.$value['reserve_price'] : '￥'.$value['zk_final_price'];
+					$results[$key]['shop_title'] = $value['shop_title'];
+					$results[$key]['thumb'] = isset($value['small_images']) ? $value['small_images']['string'][0] : $value['pict_url'];
+					$results[$key]['zk_final_price'] = '￥'.$value['zk_final_price'];
+					$results[$key]['volume'] = $value['volume'];
+					$results[$key]['user_type'] = $value['user_type'];
+				}
+        	}
+        	return $results;
+        }
+        return [];
 	}
 	private function corverTpwd($coupons){
         $results =  json_decode(json_encode($coupons),true);

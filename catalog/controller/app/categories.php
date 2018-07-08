@@ -36,13 +36,18 @@ class ControllerAppCategories extends RestController {
         $this->load->model('tool/image');
 
         $this->load->model('catalog/product');
+        if (isset($this->request->get['page'])) {
+            $page = $this->request->get['page'];
+        } else {
+            $page = 1;
+        }
         $filter_data = array(
             'taobao'        => true,
+            'filter_category_id'    => $cid,
             'sort'  => isset($this->request->get['sort']) ? $this->request->get['sort'] : 'p.date_added',
             'order'  => isset($this->request->get['order']) ? $this->request->get['order'] : 'DESC',
-            'limit'  => isset($this->request->get['limit']) ? $this->request->get['limit'] : 20,
-            'start'  => isset($this->request->get['page']) ? $this->request->get['page'] : 1,
-            'filter_category_id'  => $cid,
+            'limit'  => isset($this->request->get['limit']) ? $this->request->get['limit'] : $this->config->get('config_limit_admin'),
+            'start'  => ($page - 1) * $this->config->get('config_limit_admin'),
         );
         $results = $this->model_catalog_product->getProducts($filter_data);
         if($results) {
